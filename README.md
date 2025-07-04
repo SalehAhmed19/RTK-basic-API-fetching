@@ -1,12 +1,48 @@
-# React + Vite
+# Basic Instruction about RTK - Redux Toolkit  
+- **Installing :** ```yarn add react-redux @reduxjs/toolkit```  
+- Make ```App``` folder on ```src``` folder and create ```store.js``` file.  
+**Basic structures of ```redux store``` :**  
+  ```
+  import { configureStore } from "@reduxjs/toolkit";
+  
+  const store = configureStore({
+    reducer: {},
+  });
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+  export default store;```  
+- Connect the ```store.js``` to react: Go to the ```main.jsx``` file and import ```Provider``` from ```react-redux``` and ```store.js``` from your folder.  
+  ```
+  import { Provider } from "react-redux";
+  import store from "STORE_FILE_PATH";
+  ```
+  ```
+  <Provider store={store}>
+      <App />
+    </Provider>
+  ```
+- Make ```slice``` ```EX: todoSlice.js``` file for actions.
+**Basic structures of ```slice``` :**
+  ```
+  import { createSlice } from "@reduxjs/toolkit";
+  const initialState = {
+  todos: [],
+  };
 
-Currently, two official plugins are available:
-
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
-
-## Expanding the ESLint configuration
-
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+  const todoSlice = createSlice({
+    name: "todos",
+    initialState,
+    reducers: {},
+  });
+  
+  export default todoSlice.reducer;
+  ```
+- **For using:** Go to ```App.jsx``` and import this:
+  ```
+  import { useDispatch, useSelector } from "react-redux";
+  import { fetchTodos } from "SLICE_FILE_PATH";
+  ```
+- ```useSelector()``` for get the state and ```useDispatch()``` for do something.  
+  **Syntax :**
+  ```useSelector((state) => state.yourSlice);```
+  ```dispatch(yourActions())``` ```[Reducers exported from the Slice]```
+- We need to use the ```createAsyncThunk``` middleware for fetching something or any kind of delay task.
